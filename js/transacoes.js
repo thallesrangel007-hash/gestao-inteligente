@@ -122,66 +122,65 @@ async function buscarTransacao() {
 const botaoSalvar = document.getElementById('btn-salvar');
 
 botaoSalvar.addEventListener('click', async function() {
-    const salvarValor = document.getElementById('valor').value;
-    const salvarLocal = document.getElementById('loja_compra').value;
+    const salvarValor = Number(document.getElementById('valor').value);
+    const salvarLocal = document.getElementById('loja_compra').value.trim();
     const salvarTipo = document.getElementById('tipo_transacao').value;
     const salvarDataHora = document.getElementById('data_hora').value;
     
-    const { data, error } = await clienteSupabase.auth.getUser();
+    const { data, error: userError } = await clienteSupabase.auth.getUser();
     
-    if(salvarValor <= 0 || salvarLocal == "" || salvarDataHora == "")
-        {
-            alert("Entrada Inválida.");
-            return;
-        }
+    if (userError || !data.user) {
+        alert("Erro de autenticação. Por favor, faça login novamente.");
+        return;
+    }
+
+    if (isNaN(salvarValor) || salvarValor <= 0 || salvarLocal === "" || salvarDataHora === "") {
+        alert("Por favor, preencha todos os campos corretamente com valores válidos.");
+        return;
+    }
+
     const dataConvertida = new Date(salvarDataHora).toISOString();
     
     let dadosSalvos, erroSalvar;
 
     if (idTransacao == null) {
-    const resultado = await clienteSupabase
-        .from('transacoes')
-        .insert({ usuario_id: data.user.id, valor: salvarValor, loja_compra: salvarLocal, tipo_transacao: salvarTipo, data_hora: dataConvertida });
-    dadosSalvos = resultado.data;
-    erroSalvar = resultado.error;
-    }
-     else
-    {
         const resultado = await clienteSupabase
-        .from('transacoes')
-        .update({ valor: salvarValor, loja_compra: salvarLocal, tipo_transacao: salvarTipo, data_hora: dataConvertida })
-        .eq('id',idTransacao);
+            .from('transacoes')
+            .insert({ 
+                usuario_id: data.user.id, 
+                valor: salvarValor, 
+                loja_compra: salvarLocal, 
+                tipo_transacao: salvarTipo, 
+                data_hora: dataConvertida 
+            });
+        dadosSalvos = resultado.data;
+        erroSalvar = resultado.error;
+    } else {
+        const resultado = await clienteSupabase
+            .from('transacoes')
+            .update({ 
+                valor: salvarValor, 
+                loja_compra: salvarLocal, 
+                tipo_transacao: salvarTipo, 
+                data_hora: dataConvertida 
+            })
+            .eq('id', idTransacao);
         dadosSalvos = resultado.data;
         erroSalvar = resultado.error;
     }   
-    if(erroSalvar){
+
+    if (erroSalvar) {
         console.error("Erro ao salvar transação:", erroSalvar.message);
         alert("Erro ao salvar transação: " + erroSalvar.message);
-    }
-    else{
+    } else {
         console.log("Transação salva com sucesso!", dadosSalvos);
         alert("Transação salva com sucesso!");
         buscarTransacao();
+        
+        // Limpa os campos
         document.getElementById('valor').value = '';
         document.getElementById('loja_compra').value = '';
         document.getElementById('data_hora').value = '';
         idTransacao = null;
     }
 });
-
-const botaoSair = document.getElementById('btn-sair');
-
-if (botaoSair) {
-    botaoSair.addEventListener('click', async function(event) {
-        event.preventDefault(); // Evita que o link recarregue a página abruptamente
-        
-        const { error } = await clienteSupabase.auth.signOut();
-        
-        if (error) {
-            alert("Erro ao sair: " + error.message);
-        } else {
-            // Sessão encerrada no banco, devolve o utilizador para a tela de login
-            window.location.href = 'index.html'; 
-        }
-    });
-}
