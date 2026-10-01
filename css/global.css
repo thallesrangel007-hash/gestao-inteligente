@@ -1,0 +1,152 @@
+/* --- RESET E CONFIGURAÇÕES GLOBAIS --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+body {
+    background-color: #f4f6f9;
+    color: #333;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* --- TÍTULOS E TEXTOS --- */
+h1, h2, h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+hr {
+    width: 100%;
+    max-width: 600px;
+    border: 0;
+    height: 1px;
+    background: #dcdde1;
+    margin: 20px 0;
+}
+
+/* --- MENU DE NAVEGAÇÃO (<nav>) --- */
+nav {
+    background-color: #ffffff;
+    padding: 12px 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+nav a {
+    text-decoration: none;
+    color: #3498db;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+nav a:hover {
+    color: #2980b9;
+}
+
+#btn-sair {
+    color: #e74c3c;
+}
+
+#btn-sair:hover {
+    color: #c0392b;
+}
+
+/* --- FORMULÁRIOS E INPUTS --- */
+input, select {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #dcdde1;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #fff;
+    transition: border-color 0.2s;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+/* --- BOTÕES PADRÃO --- */
+button {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    margin-bottom: 15px;
+}
+
+button:hover {
+    background-color: #27ae60;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+/* --- LISTAS E CARDS DE RESULTADOS --- */
+div[id^="lista-"] {
+    width: 100%;
+    max-width: 800px; /* Aumentei um pouco o limite de largura para dar espaço ao texto longo */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Estilo para as linhas geradas dinamicamente */
+p {
+    background-color: #ffffff;
+    padding: 16px 20px; /* Mais espaço interno (respiro) nas bordas */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* SEGREDO 1: Permite que os botões desçam para outra linha se a tela for pequena */
+    font-size: 14.5px;
+    line-height: 1.6; /* SEGREDO 2: Aumenta o espaçamento vertical entre as linhas de texto, tirando o efeito "embolado" */
+    gap: 15px; /* Mais espaço entre o texto e os botões */
+}
+
+/* Estilização corrigida para os botões gerados via JavaScript */
+p button {
+    background-color: #e74c3c;
+    padding: 8px 12px;
+    font-size: 12px;
+    margin-bottom: 0;
+    white-space: nowrap; /* Impede que as palavras do botão se partam a meio */
+    flex-shrink: 0;      /* Impede que o botão seja esmagado pelo texto longo */
+    width: auto;
+    border-radius: 4px;
+}
+
+p button:hover {
+    background-color: #c0392b;
+}
+
+/* Um verde específico para o botão de Registrar Pagamento ou Guardar Dinheiro (Opcional, para destacar) */
+p button:last-child {
+    background-color: #2ecc71;
+}
+
+p button:last-child:hover {
+    background-color: #27ae60;
+}

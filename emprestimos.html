@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel - Gestão Inteligente</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/painel.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="tela-emprestimos">
+    <h1> Menu de Empréstimos </h1>
+
+    <nav>
+        <a href="dashboard.html">Início</a> | 
+        <a href="transacoes.html">Transações</a> | 
+        <a href="emprestimos.html">Empréstimos</a> | 
+        <a href="metas.html">Metas</a> |
+        <a href="#" id="btn-sair">Sair</a>
+    </nav>
+
+    <div class="cartao-formulario">
+        <input type="number" id="valor_total" placeholder="Valor Total" step="0.01" min="0">
+        <input type="text" id="pessoa_envolvida" placeholder="Pessoa ou Instituição envolvida" oninput="this.value = this.value.replace(/[0-9]/g, '')">
+        <label for="data_hora_inicio">Data de Liberação:</label>
+        <input type="datetime-local" id="data_hora_inicio">
+        <label for="data_hora_fim">Data de Vencimento:</label>
+        <input type="datetime-local" id="data_hora_fim">
+        <select id="tipo_emprestimo">
+            <option value="divida">Dívida</option>
+            <option value="cobranca">Cobrança</option>
+        </select>
+        <button id="btn-salvar">Salvar</button>
+    </div>
+
+    <h2>Lista de Empréstimos</h2>
+    <div id="lista-emprestimos"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/emprestimos.js"></script>
+</body>
+</html>

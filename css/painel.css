@@ -1,0 +1,119 @@
+/* ---------- FUNDO DA PÁGINA ---------- */
+/* ---------- FUNDO DA PÁGINA BASE ---------- */
+body {
+    background-color: #0b3b2b;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* Removemos a linha do background-image daqui! */
+}
+
+/* Define a imagem de acordo com a página que o body indica */
+/* Define a imagem de acordo com a página */
+body.tela-dashboard   { background-image: url(../img/img_dashboard.png); }
+body.tela-transacoes  { background-image: url(../img/img_transacoes.png); }
+body.tela-emprestimos { background-image: url(../img/img_emprestimos.png); } /* NOVO */
+body.tela-metas       { background-image: url(../img/img_metas.png); }       /* NOVO */
+
+/* Aproveitando: Títulos claros no fundo escuro */
+h1, h2 {
+    color: #e8f0ec;
+    margin-bottom: 15px;
+}
+
+/* ---------- VISUAL DOS CARTÕES (perfil + dados) ---------- */
+.cartao, .cartao-perfil, .cartao-formulario{
+    background-color: rgba(8, 48, 36, 0.78);
+    border: 1px solid rgba(120, 220, 170, 0.35);
+    backdrop-filter: blur(6px);
+    padding: 16px 24px;
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* ---------- CARTÃO DE PERFIL (conteúdo centralizado) ---------- */
+.cartao-perfil {
+    width: 100%;
+    max-width: 1000px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.cartao-formulario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 450px; /* Mantém o formulário num tamanho elegante */
+    margin-bottom: 30px;
+}
+
+.cartao-formulario input,
+.cartao-formulario select,
+.cartao-formulario button {
+    width: 100%; /* Garante que os campos ocupam todo o espaço do cartão */
+}
+
+.cartao-perfil input,
+.cartao-perfil select {
+    max-width: 260px;
+    margin-bottom: 0;
+}
+
+.cartao-perfil button {
+    margin-bottom: 0;
+}
+
+/* ---------- GRADE DOS CARTÕES (3 em cima, 2 embaixo) ---------- */
+.grade-cartoes {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.cartao {
+    grid-column: span 2;
+}
+
+.cartao:nth-child(n+4) {
+    grid-column: span 3;
+}
+
+/* ---------- INTERIOR DOS CARTÕES ---------- */
+.cartao-titulo {
+    display: block;
+    font-size: 14px;
+    color: #a7d9c3;
+}
+
+.cartao strong {
+    display: block;
+    font-size: 26px;
+    margin-top: 6px;
+    color: #ffffff;
+}
+
+.cartao small {
+    display: block;
+    margin-top: 6px;
+    font-size: 13px;
+    color: #a7d9c3;
+}
+
+/* ---------- CELULAR: um cartão por linha ---------- */
+@media (max-width: 700px) {
+    .grade-cartoes {
+        grid-template-columns: 1fr;
+    }
+
+    .cartao,
+    .cartao:nth-child(n+4) {
+        grid-column: span 1;
+    }
+}

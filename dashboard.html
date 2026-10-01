@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel - Gestão Inteligente</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/painel.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body class="tela-dashboard">
+    <h1>Bem-vindo ao Menu</h1>
+
+    <nav>
+        <a href="dashboard.html">Início</a> | 
+        <a href="transacoes.html">Transações</a> | 
+        <a href="emprestimos.html">Empréstimos</a> | 
+        <a href="metas.html">Metas</a> |
+        <a href="#" id="btn-sair">Sair</a>
+    </nav>
+    <div class="cartao-perfil">
+        <input type="text" id="nome_completo" placeholder="Nome Completo">
+        <select id="moeda_preferida">
+            <option value="BRL">Real (BRL)</option>
+            <option value="USD">Dólar (USD)</option>
+            <option value="EUR">Euro (EUR)</option>
+        </select>
+        <button id="btn-editar">Editar Dados</button>
+    </div>
+
+    <section class="grade-cartoes">
+        <div class="cartao">
+            <span class="cartao-titulo">Receitas Totais</span>
+            <strong id="visor-receitas">0</strong>
+        </div>
+        <div class="cartao">
+            <span class="cartao-titulo">Gastos Totais</span>
+            <strong id="visor-gastos">0</strong>
+        </div>
+        <div class="cartao">
+            <span class="cartao-titulo">Saldo Total</span>
+            <strong id="visor-saldo">0</strong>
+        </div>
+        <div class="cartao">
+            <span class="cartao-titulo">Empréstimos Pendentes</span>
+            <strong id="visor-totalEmprestado">0</strong>
+        </div>
+        <div class="cartao">
+            <span class="cartao-titulo">Metas</span>
+            <strong id="visor-metasAndamento">0</strong>
+            <small>de <span id="visor-metasAlvo">0</span> (<span id="visor-metasConcluidas">0</span> concluídas)</small>
+        </div>
+    </section>
+
+    <!-- Os scripts carregam no fim -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

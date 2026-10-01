@@ -1,0 +1,105 @@
+/* --- ESTILO DA TELA DE AUTENTICAÇÃO --- */
+.body-auth {
+    background-color: #e8f0ec;
+    background-image: url(../img/img_login.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.card-auth {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 440px;
+    padding: 40px 35px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(21, 87, 62, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.auth-header h1 {
+    color: #15573e;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.auth-header p {
+    color: #666666;
+    font-size: 14px;
+}
+
+.form-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-section input {
+    width: 100%;
+    max-width: 100%;
+    padding: 14px 16px;
+    margin-bottom: 15px;
+    border: 1px solid #d9e2db;
+    border-radius: 10px;
+    font-size: 14px;
+    background-color: #fafbfc;
+}
+
+.form-section input:focus {
+    border-color: #15573e;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(21, 87, 62, 0.1);
+    outline: none;
+}
+
+.btn-principal {
+    width: 100%;
+    background-color: #15573e;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.btn-principal:hover {
+    background-color: #10422f;
+}
+
+.auth-footer-text {
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    background: none;
+    box-shadow: none;
+    padding: 0;
+    display: block;
+}
+
+.auth-footer-text a {
+    color: #15573e;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-footer-text a:hover {
+    text-decoration: underline;
+}

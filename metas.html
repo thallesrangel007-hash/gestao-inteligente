@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel - Gestão Inteligente</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/painel.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">    
+</head>
+<body class="tela-metas">
+    <h1> Menu de Metas </h1>
+
+    <nav>
+        <a href="dashboard.html">Início</a> | 
+        <a href="transacoes.html">Transações</a> | 
+        <a href="emprestimos.html">Empréstimos</a> | 
+        <a href="metas.html">Metas</a> |
+        <a href="#" id="btn-sair">Sair</a>
+    </nav>
+
+    <div class="cartao-formulario">
+        <input type="number" id="valor_total" placeholder="Valor Total" step="0.01" min="0">
+        <input type="text" id="objetivo" placeholder="Objetivo a ser alcançado" oninput="this.value = this.value.replace(/[0-9]/g, '')">
+        <label for="data_hora_inicio">Data Inicial:</label>
+        <input type="datetime-local" id="data_hora_inicio">
+        
+        <button id="btn-salvar">Salvar</button>
+    </div>
+
+    <h2>Lista de Metas</h2>
+    <div id="lista-metas"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/metas.js"></script>
+</body>
+</html>
