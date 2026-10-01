@@ -160,9 +160,8 @@ async function carregarResumo() {
     }
 
     // ----------------------------------------------------
-    // 6. JOGA OS RESULTADOS NOS VISORES DO SEU HTML
+    // 6. JOGA OS RESULTADOS NOS VISORES DO HTML
     // ----------------------------------------------------
-    // (Certifique-se de que os IDs abaixo batem com os que você colocou no dashboard.html)
     document.getElementById('visor-receitas').textContent = Number(totalReceitas).toLocaleString(localeMoeda, { style: 'currency', currency: moedaUsuario });
     document.getElementById('visor-gastos').textContent = Number(totalGastos).toLocaleString(localeMoeda, { style: 'currency', currency: moedaUsuario });
     document.getElementById('visor-saldo').textContent = Number(saldo).toLocaleString(localeMoeda, { style: 'currency', currency: moedaUsuario });

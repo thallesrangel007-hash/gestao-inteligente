@@ -73,7 +73,6 @@ async function buscarTransacao() {
                 <small style="color: #95a5a6;">📅 Data: ${momento}</small>
             `;
 
-            // 3. AGRUPAMOS OS BOTÕES
             const grupoBotoes = document.createElement('div');
             grupoBotoes.style.display = 'flex';
             grupoBotoes.style.gap = '8px';
@@ -109,7 +108,6 @@ async function buscarTransacao() {
                 document.getElementById('tipo_transacao').value = transacao.tipo_transacao;
             });
             
-            // 4. JUNTAMOS TUDO
             grupoBotoes.appendChild(botaoExcluir);
             grupoBotoes.appendChild(botaoEditar);
 

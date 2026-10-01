@@ -62,14 +62,12 @@ async function buscarEmprestimo() {
                 statusPagamento = "Quitado";
             }
     
-            // 1. CRIAMOS O CARTÃO PRINCIPAL DA LINHA
             const linha = document.createElement('p');
             
-            // 2. CRIAMOS A DIV QUE VAI CONTER O TEXTO FORMATADO
             const infoTexto = document.createElement('div');
-            infoTexto.style.lineHeight = "1.5"; // Dá espaço entre as linhas de texto
+            infoTexto.style.lineHeight = "1.5"; 
             
-            // Usamos innerHTML para organizar os dados com negrito, cores e quebras de linha
+            //innerHTML para organizar os dados com negrito, cores e quebras de linha
             infoTexto.innerHTML = `
                 <strong style="font-size: 16px; color: #2c3e50;">👤 ${emprestimo.pessoa_envolvida}</strong> 
                 <span style="background: #ecf0f1; padding: 2px 8px; border-radius: 12px; font-size: 11px; margin-left: 5px; color: #7f8c8d; text-transform: uppercase;">
@@ -84,14 +82,12 @@ async function buscarEmprestimo() {
                 </strong>
             `;
 
-            // 3. CRIAMOS A DIV QUE VAI SEGURAR OS BOTÕES E EMPURRÁ-LOS PARA A DIREITA
             const grupoBotoes = document.createElement('div');
             grupoBotoes.style.display = 'flex';
-            grupoBotoes.style.gap = '8px'; // Espaço entre os botões
-            grupoBotoes.style.flexWrap = 'wrap'; // Permite que os botões desçam se não couberem na tela
-            grupoBotoes.style.justifyContent = 'flex-end'; // Empurra para a direita
+            grupoBotoes.style.gap = '8px'; 
+            grupoBotoes.style.flexWrap = 'wrap'; 
+            grupoBotoes.style.justifyContent = 'flex-end'; 
 
-            // 4. CRIAMOS OS BOTÕES EXATAMENTE COMO ERAM ANTES
             const botaoExcluir = document.createElement('button');
             botaoExcluir.textContent = 'Excluir';
             
@@ -167,16 +163,13 @@ async function buscarEmprestimo() {
                 }
             });
             
-            // 5. POR FIM, ADICIONAMOS OS BOTÕES NA DIV DE BOTÕES
             grupoBotoes.appendChild(botaoExcluir);
             grupoBotoes.appendChild(botaoEditar);
             grupoBotoes.appendChild(botaoPagar);
 
-            // 6. E COLOCAMOS O TEXTO E OS BOTÕES DENTRO DA LINHA (<p>)
             linha.appendChild(infoTexto);
             linha.appendChild(grupoBotoes);
             
-            // 7. COLOCAMOS A LINHA NA LISTA PRINCIPAL DA TELA
             lista.appendChild(linha);
         });
             

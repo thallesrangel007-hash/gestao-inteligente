@@ -9,7 +9,6 @@ body {
 }
 
 /* Define a imagem de acordo com a página que o body indica */
-/* Define a imagem de acordo com a página */
 body.tela-dashboard   { background-image: url(../img/img_dashboard.png); }
 body.tela-transacoes  { background-image: url(../img/img_transacoes.png); }
 body.tela-emprestimos { background-image: url(../img/img_emprestimos.png); } /* NOVO */

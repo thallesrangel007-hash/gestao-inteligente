@@ -59,10 +59,8 @@ async function buscarMeta() {
             const corStatus = metaAlcancada ? '#27ae60' : '#3498db';
             const textoStatus = metaAlcancada ? 'Meta Alcançada 🎉' : 'Pendente...';
     
-            // 1. CRIAMOS O CARTÃO PRINCIPAL DA LINHA
             const linha = document.createElement('p');
 
-            // 2. TEXTO FORMATADO DA META
             const infoTexto = document.createElement('div');
             infoTexto.style.lineHeight = "1.5";
 
@@ -77,7 +75,6 @@ async function buscarMeta() {
                 </strong>
             `;
 
-            // 3. AGRUPAMOS OS BOTÕES
             const grupoBotoes = document.createElement('div');
             grupoBotoes.style.display = 'flex';
             grupoBotoes.style.gap = '8px';
@@ -158,7 +155,6 @@ async function buscarMeta() {
 
             });
             
-            // 4. JUNTAMOS TUDO
             grupoBotoes.appendChild(botaoExcluir);
             grupoBotoes.appendChild(botaoEditar);
             grupoBotoes.appendChild(botaoGuardar);

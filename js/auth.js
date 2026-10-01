@@ -6,7 +6,7 @@ const cadastroContainer = document.getElementById('cadastro-container');
 const linkIrCadastro = document.getElementById('link-ir-cadastro');
 const linkIrLogin = document.getElementById('link-ir-login');
 
-// Máscara do Telefone
+//Proibições básicas
 const inputTelefone = document.getElementById('cadastro-telefone');
 
 inputTelefone.addEventListener('input', function(event) {
@@ -25,16 +25,16 @@ inputTelefone.addEventListener('input', function(event) {
 
 // Quando clicar em "Cadastre-se aqui"
 linkIrCadastro.addEventListener('click', function(event) {
-    event.preventDefault(); // Evita que o link recarregue a página
-    loginContainer.style.display = 'none'; // Esconde o Login
-    cadastroContainer.style.display = 'block'; // Mostra o Cadastro
+    event.preventDefault();
+    loginContainer.style.display = 'none';
+    cadastroContainer.style.display = 'block';
 });
 
 // Quando clicar em "Voltar para o Login"
 linkIrLogin.addEventListener('click', function(event) {
     event.preventDefault();
-    cadastroContainer.style.display = 'none'; // Esconde o Cadastro
-    loginContainer.style.display = 'block'; // Mostra o Login
+    cadastroContainer.style.display = 'none';
+    loginContainer.style.display = 'block';
 });
 
 // ==========================================
@@ -58,7 +58,6 @@ botaoCadastrar.addEventListener('click', async function() {
         console.error("Erro ao criar conta:", error.message);
         alert("Erro ao criar conta: " + error.message);
     } else {
-        // Agora gravamos o nome e o telefone na tabela profiles!
         const { data: dadosPerfil, error: erroPerfil } = await clienteSupabase
         .from('profiles')
         .insert({
