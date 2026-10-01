@@ -116,3 +116,11 @@ h1, h2 {
         grid-column: span 1;
     }
 }
+
+.cartao-formulario label {
+    color: #ffffff; /* Deixa o texto das legendas em branco */
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    display: block;
+}
