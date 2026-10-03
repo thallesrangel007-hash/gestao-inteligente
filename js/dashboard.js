@@ -25,7 +25,12 @@ async function buscarPerfil() {
         .single();
         if(erroPerfil){
         console.error("Erro ao buscar perfil:", erroPerfil.message);
-        alert("Erro ao buscar perfil: " + erroPerfil.message);
+        Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Erro ao buscar perfil!',
+                confirmButtonColor: '#1a5c3d'
+        });
     }
     else{
         console.log("Perfil encontrado com sucesso!", dadosPerfil);
@@ -37,21 +42,40 @@ async function buscarPerfil() {
 
 const botaoSair = document.getElementById('btn-sair');
 
-botaoSair.addEventListener('click', async function() {
-    // Comando oficial do Supabase para encerrar a sessão
-    botaoSair.textContent = "Saindo da Conta...";
-    botaoSair.disabled = true;
-    const { error } = await clienteSupabase.auth.signOut();
-    
-    if (error) {
-        alert("Erro ao tentar sair: " + error.message);
-    } else {
-        // Redireciona de volta para a tela de login
-        window.location.href = 'index.html';
-    }
-
-    
-});
+if (botaoSair) {
+    // Retiramos o 'async' daqui
+    botaoSair.addEventListener('click', function(event) {
+        event.preventDefault(); // Evita que o link recarregue a página abruptamente
+        
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: "Você precisará fazer login novamente para acessar o painel.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e74c3c', 
+            cancelButtonColor: '#7f8c8d',  
+            confirmButtonText: 'Sim, sair da conta!', 
+            cancelButtonText: 'Cancelar'
+        }).then(async (result) => { 
+            
+            if (result.isConfirmed) {
+                const { error } = await clienteSupabase.auth.signOut();
+        
+                if (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Erro ao sair!',
+                        confirmButtonColor: '#1a5c3d'
+                    });
+                } else {
+                    // Sessão encerrada no banco, devolve o utilizador para a tela de login
+                    window.location.href = 'index.html'; 
+                }
+            } 
+        });
+    });
+}
 const botaoEditar = document.getElementById('btn-editar');
 
 botaoEditar.addEventListener('click', async function() {
@@ -66,11 +90,21 @@ botaoEditar.addEventListener('click', async function() {
     .eq('id',data.user.id);
     if(erroAtualizacao){
         console.error("Erro ao atualizar dados:", erroAtualizacao.message);
-        alert("Erro ao atualizar dados: " + erroAtualizacao.message);
+        Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Erro ao atualizar dados. Tente novamente!',
+                confirmButtonColor: '#1a5c3d'
+        });
     }
     else{
         console.log("Dados atualizados com sucesso!", dadosAtualizacao);
-        alert("Dados atualizados com sucesso!")
+        Swal.fire({
+                icon: 'success', 
+                title: 'Sucesso!',
+                text: 'Dados atualizados com êxito!',
+                confirmButtonColor: '#1a5c3d'
+            });
     }
 });
 

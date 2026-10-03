@@ -34,7 +34,12 @@ async function buscarEmprestimo() {
     .order('data_hora_inicio', { ascending: false })
     if(erroEmprestimo){
         console.error("Erro ao buscar empréstimo:", erroEmprestimo.message);
-        alert("Erro ao buscar empréstimo: " + erroEmprestimo.message);
+        Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Erro ao buscar empréstimo!',
+                confirmButtonColor: '#1a5c3d'
+        });
     }
     else{
         const lista = document.getElementById('lista-emprestimos');
@@ -91,19 +96,43 @@ async function buscarEmprestimo() {
             const botaoExcluir = document.createElement('button');
             botaoExcluir.textContent = 'Excluir';
             
-            botaoExcluir.addEventListener('click', async function() {
-                const {data: dadosExcluidos, error: erroExcluir } = await clienteSupabase
-                .from('emprestimos')
-                .delete()
-                .eq('id', emprestimo.id);
-                
-                if (erroExcluir) {
-                    console.error("Erro ao excluir empréstimo:", erroExcluir.message);
-                    alert("Erro ao excluir empréstimo: " + erroExcluir.message);
-                } else {
-                    alert("Empréstimo excluído com sucesso!");
-                    buscarEmprestimo(); // Recarrega a lista atualizada
-                }
+            botaoExcluir.addEventListener('click', function() {
+                Swal.fire({
+                    title: 'Tem certeza?',
+                    text: "Você não poderá reverter a exclusão deste empréstimo!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#e74c3c', 
+                    cancelButtonColor: '#7f8c8d', 
+                    confirmButtonText: 'Sim, excluir!',
+                    cancelButtonText: 'Cancelar'
+                }).then(async (result) => {
+                    // Só executa a exclusão se o botão "Sim, excluir!" for clicado
+                    if (result.isConfirmed) {
+                        const {data: dadosExcluidos, error: erroExcluir } = await clienteSupabase
+                        .from('emprestimos')
+                        .delete()
+                        .eq('id', emprestimo.id);
+                        
+                        if (erroExcluir) {
+                            console.error("Erro ao excluir meta:", erroExcluir.message);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Erro ao excluir empréstimo!',
+                                confirmButtonColor: '#1a5c3d'
+                            }); 
+                        } else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Excluído!',
+                                text: 'O empréstimo foi excluído com êxito.',
+                                confirmButtonColor: '#1a5c3d'
+                            });
+                            buscarEmprestimo(); // Recarrega a lista atualizada
+                        }
+                    }
+                });
             });
             
             const botaoEditar = document.createElement('button');
@@ -122,7 +151,17 @@ async function buscarEmprestimo() {
             botaoPagar.textContent = 'Registrar Pagamento';
             
             botaoPagar.addEventListener('click', async function() {
-               let valorDigitado = prompt("Qual valor recebido/pago?");
+               const { value: valorDigitado } = await Swal.fire({
+                    title: 'Registrar Pagamento',
+                    input: 'number',
+                    inputLabel: 'Qual valor foi recebido ou pago?',
+                    inputPlaceholder: 'Ex: 50.00',
+                    showCancelButton: true,
+                    confirmButtonColor: '#1a5c3d',
+                    cancelButtonColor: '#e74c3c',
+                    confirmButtonText: 'Confirmar',
+                    cancelButtonText: 'Cancelar'
+                });
 
                if(valorDigitado == null || valorDigitado == "") {
                 return;
@@ -132,12 +171,23 @@ async function buscarEmprestimo() {
                let valorFaltante = Number(emprestimo.valor_total) - Number(emprestimo.valor_pago);
                
                if (isNaN(numDigitado) || numDigitado <= 0) {
-                    alert("Por favor, digite um valor numérico válido.");
-                    return; 
+                    Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Erro! Digite um valor numérico válido',
+                    confirmButtonColor: '#1a5c3d'
+                    }); 
+                    return;
                 }
     
                 if (numDigitado > valorFaltante) {
-                    alert("Erro: O valor ultrapassa a dívida! Falta pagar apenas: " + valorFaltante);
+                    const valorFormatado = Number(valorFaltante).toLocaleString(localeMoeda, { style: 'currency', currency: moedaUsuario});
+                    Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: `O valor ultrapassa a dívida! Falta pagar apenas: ${valorFormatado}`,
+                    confirmButtonColor: '#1a5c3d'
+                    }); 
                     return; 
                 }
                
@@ -155,10 +205,20 @@ async function buscarEmprestimo() {
                 .select();
 
                 if (erroPagamento) {
-                    alert("Erro ao registrar pagamento: " + erroPagamento.message);
+                    Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Erro ao registrar pagamento!',
+                    confirmButtonColor: '#1a5c3d'
+                    });
                     console.error("Erro:", erroPagamento.message);
                 } else {
-                    alert("Pagamento registrado com sucesso!");
+                    Swal.fire({
+                    icon: 'success', // CORREÇÃO 2: Escrito corretamente em inglês
+                    title: 'Sucesso!',
+                    text: 'Pagamento registrado com êxito!',
+                    confirmButtonColor: '#1a5c3d'
+                });
                     await buscarEmprestimo(); 
                 }
             });
@@ -189,7 +249,12 @@ botaoSalvar.addEventListener('click', async function() {
     
     if(salvarValorTotal <= 0 || salvarPessoaEnvolvida == "" || salvarDataHoraInicio == "" || salvarDataHoraFim == "")
         {
-            alert("Entrada Inválida.");
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Entrada Inválida!',
+                confirmButtonColor: '#1a5c3d'
+        });
             return;
         }
     const dataConvertidaInicio = new Date(salvarDataHoraInicio).toISOString();
@@ -216,11 +281,21 @@ botaoSalvar.addEventListener('click', async function() {
     }   
     if(erroSalvar){
         console.error("Erro ao salvar empréstimo:", erroSalvar.message);
-        alert("Erro ao salvar empréstimo: " + erroSalvar.message);
+        Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Erro ao salvar empréstimo!',
+                confirmButtonColor: '#1a5c3d'
+        });
     }
     else{
         console.log("Empréstimo salvo com sucesso!", dadosSalvos);
-        alert("Empréstimo salvo com sucesso!");
+        Swal.fire({
+                icon: 'success', // CORREÇÃO 2: Escrito corretamente em inglês
+                title: 'Sucesso!',
+                text: 'Empréstimo salvo com êxito!',
+                confirmButtonColor: '#1a5c3d'
+            });
         buscarEmprestimo();
         document.getElementById('valor_total').value = '';
         document.getElementById('pessoa_envolvida').value = '';
@@ -234,16 +309,36 @@ botaoSalvar.addEventListener('click', async function() {
 const botaoSair = document.getElementById('btn-sair');
 
 if (botaoSair) {
-    botaoSair.addEventListener('click', async function(event) {
+    // Retiramos o 'async' daqui
+    botaoSair.addEventListener('click', function(event) {
         event.preventDefault(); // Evita que o link recarregue a página abruptamente
         
-        const { error } = await clienteSupabase.auth.signOut();
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: "Você precisará fazer login novamente para acessar o painel.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e74c3c', 
+            cancelButtonColor: '#7f8c8d',  
+            confirmButtonText: 'Sim, sair da conta!', 
+            cancelButtonText: 'Cancelar'
+        }).then(async (result) => { 
+            
+            if (result.isConfirmed) {
+                const { error } = await clienteSupabase.auth.signOut();
         
-        if (error) {
-            alert("Erro ao sair: " + error.message);
-        } else {
-            // Sessão encerrada no banco, devolve o utilizador para a tela de login
-            window.location.href = 'index.html'; 
-        }
+                if (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Erro ao sair!',
+                        confirmButtonColor: '#1a5c3d'
+                    });
+                } else {
+                    window.location.href = 'index.html'; 
+                }
+            } 
+            
+        });
     });
 }

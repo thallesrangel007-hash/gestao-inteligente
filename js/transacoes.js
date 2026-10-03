@@ -34,7 +34,12 @@ async function buscarTransacao() {
     .order('data_hora', { ascending: false })
     if(erroTransacao){
         console.error("Erro ao buscar transação:", erroTransacao.message);
-        alert("Erro ao buscar transação: " + erroTransacao.message);
+        Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Erro ao buscar transação!',
+                confirmButtonColor: '#1a5c3d'
+        });
     }
     else{
         const lista = document.getElementById('lista-transacoes');
@@ -82,19 +87,43 @@ async function buscarTransacao() {
             const botaoExcluir = document.createElement('button');
             botaoExcluir.textContent = 'Excluir';
             
-            botaoExcluir.addEventListener('click', async function() {
-                const {data: dadosExcluidos, error: erroExcluir } = await clienteSupabase
-                .from('transacoes')
-                .delete()
-                .eq('id', transacao.id);
-                
-                if (erroExcluir) {
-                    console.error("Erro ao excluir transação:", erroExcluir.message);
-                    alert("Erro ao excluir transação: " + erroExcluir.message);
-                } else {
-                    alert("Transação excluída com sucesso!");
-                    buscarTransacao(); // Recarrega a lista atualizada
-                }
+            botaoExcluir.addEventListener('click', function() {
+                Swal.fire({
+                    title: 'Tem certeza?',
+                    text: "Você não poderá reverter a exclusão desta transação!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#e74c3c', 
+                    cancelButtonColor: '#7f8c8d', 
+                    confirmButtonText: 'Sim, excluir!',
+                    cancelButtonText: 'Cancelar'
+                }).then(async (result) => {
+                    // Só executa a exclusão se o botão "Sim, excluir!" for clicado
+                    if (result.isConfirmed) {
+                        const {data: dadosExcluidos, error: erroExcluir } = await clienteSupabase
+                        .from('transacoes')
+                        .delete()
+                        .eq('id', transacao.id);
+                        
+                        if (erroExcluir) {
+                            console.error("Erro ao excluir meta:", erroExcluir.message);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Erro ao excluir transação!',
+                                confirmButtonColor: '#1a5c3d'
+                            }); 
+                        } else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Excluído!',
+                                text: 'A transação foi excluída com sucesso.',
+                                confirmButtonColor: '#1a5c3d'
+                            });
+                            buscarTransacao(); // Recarrega a lista atualizada
+                        }
+                    }
+                });
             });
             
             const botaoEditar = document.createElement('button');
@@ -130,12 +159,22 @@ botaoSalvar.addEventListener('click', async function() {
     const { data, error: userError } = await clienteSupabase.auth.getUser();
     
     if (userError || !data.user) {
-        alert("Erro de autenticação. Por favor, faça login novamente.");
+        Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Erro de autenticaçã! Por favor, faça o login novamente!',
+                confirmButtonColor: '#1a5c3d'
+        });
         return;
     }
 
     if (isNaN(salvarValor) || salvarValor <= 0 || salvarLocal === "" || salvarDataHora === "") {
-        alert("Por favor, preencha todos os campos corretamente com valores válidos.");
+        Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Por favor, preencha todos os campos corretamente com valores válidos.',
+                confirmButtonColor: '#1a5c3d'
+        });
         return;
     }
 
@@ -171,10 +210,20 @@ botaoSalvar.addEventListener('click', async function() {
 
     if (erroSalvar) {
         console.error("Erro ao salvar transação:", erroSalvar.message);
-        alert("Erro ao salvar transação: " + erroSalvar.message);
+        Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Erro ao salvar transação!',
+                confirmButtonColor: '#1a5c3d'
+        });
     } else {
         console.log("Transação salva com sucesso!", dadosSalvos);
-        alert("Transação salva com sucesso!");
+        Swal.fire({
+                icon: 'success', 
+                title: 'Sucesso!',
+                text: 'Transação salva com êxito!',
+                confirmButtonColor: '#1a5c3d'
+            });
         buscarTransacao();
         
         // Limpa os campos
@@ -184,3 +233,41 @@ botaoSalvar.addEventListener('click', async function() {
         idTransacao = null;
     }
 });
+
+const botaoSair = document.getElementById('btn-sair');
+
+if (botaoSair) {
+    // Retiramos o 'async' daqui
+    botaoSair.addEventListener('click', function(event) {
+        event.preventDefault(); // Evita que o link recarregue a página abruptamente
+        
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: "Você precisará fazer login novamente para acessar o painel.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e74c3c', 
+            cancelButtonColor: '#7f8c8d',  
+            confirmButtonText: 'Sim, sair da conta!', 
+            cancelButtonText: 'Cancelar'
+        }).then(async (result) => { 
+            
+            if (result.isConfirmed) {
+                const { error } = await clienteSupabase.auth.signOut();
+        
+                if (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Erro ao sair!',
+                        confirmButtonColor: '#1a5c3d'
+                    });
+                } else {
+                    // Sessão encerrada no banco, devolve o utilizador para a tela de login
+                    window.location.href = 'index.html'; 
+                }
+            } 
+            
+        });
+    });
+}
